@@ -7,7 +7,7 @@ export const validateKey = (
   next: NextFunction
 ) => {
   try {
-    const apiKey = req.headers["ApiKey"] || req.headers["apikey"];
+    const apiKey = req.headers["Key"] || req.headers["key"];
     console.log(apiKey);
     get().then((val:any)=> {
       if(apiKey === val.ApiKeyHash){

@@ -27,7 +27,7 @@ exports.validateKey = void 0;
 const paramsService = __importStar(require("./services/AuthService"));
 const validateKey = (req, Response, next) => {
     try {
-        const apiKey = req.headers["ApiKey"] || req.headers["apikey"];
+        const apiKey = req.headers["Key"] || req.headers["key"];
         console.log(apiKey);
         get().then((val) => {
             if (apiKey === val.ApiKeyHash) {
