@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import * as paramsService from "./services/AuthService";
 
-export const validateKey = (
+export const validateKey = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -12,7 +12,7 @@ export const validateKey = (
     if(apiKey === null){
       return res.status(403).send({ message: 'Forbidden' });
     }
-    const hash:any = get();
+    const hash:any = await get();
     console.log('db hash', hash);
     if(apiKey === hash.ApiKeyHash){
       return next();

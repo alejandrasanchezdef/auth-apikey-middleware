@@ -25,14 +25,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateKey = void 0;
 const paramsService = __importStar(require("./services/AuthService"));
-const validateKey = (req, res, next) => {
+const validateKey = async (req, res, next) => {
     try {
         const apiKey = req.headers["x-api-key"];
         console.log('apiKey', apiKey);
         if (apiKey === null) {
             return res.status(403).send({ message: 'Forbidden' });
         }
-        const hash = get();
+        const hash = await get();
         console.log('db hash', hash);
         if (apiKey === hash.ApiKeyHash) {
             return next();
