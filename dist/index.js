@@ -28,10 +28,12 @@ const paramsService = __importStar(require("./services/AuthService"));
 const validateKey = (req, res, next) => {
     try {
         const apiKey = req.headers["x-api-key"];
+        console.log('apiKey', apiKey);
         if (apiKey === null) {
             return res.status(403).send({ message: 'Forbidden' });
         }
         const hash = get();
+        console.log('db hash', hash);
         if (apiKey === hash.ApiKeyHash) {
             return next();
         }
