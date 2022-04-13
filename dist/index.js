@@ -27,21 +27,21 @@ exports.validateKey = void 0;
 const paramsService = __importStar(require("./services/AuthService"));
 const validateKey = (req, Response, next) => {
     try {
-        const apiKey = req.headers["Key"] || req.headers["key"];
+        const apiKey = req.headers["x-api-key"] || req.headers["x-api-key"];
         console.log(apiKey);
         get().then((val) => {
             if (apiKey === val.ApiKeyHash) {
                 return next();
             }
             else {
-                return Response.send({ error: 'Error' });
+                return Response.send({ error: 'Missing Token' });
             }
         });
         return next();
     }
     catch (err) {
         Response.status(400);
-        return Response.send({ error: 'Error' });
+        return Response.send({ error: 'Missing Token' });
     }
 };
 exports.validateKey = validateKey;
