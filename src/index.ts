@@ -3,29 +3,25 @@ import * as paramsService from "./services/AuthService";
 
 export const validateKey = (
   req: Request,
-  Response: Response,
+  res: Response,
   next: NextFunction
 ) => {
   try {
-    const apiKey = req.headers["x-api-key"] || req.headers["x-api-key"];
-    console.log(apiKey);
-    get().then((val:any)=> {
-      if(apiKey === val.ApiKeyHash){
-        return next();
-      }else{
-        return Response.send({ error: 'Missing Token' });
-      }
-    });
-
-   return next();
+    const apiKey = req.headers["x-api-key"];
+    if(apiKey === null){
+      return res.status(403).send({ message: 'Forbidden' });
+    }
+    const hash:any = get();
+    if(apiKey === hash.ApiKeyHash){
+      return next();
+    }else{
+      return res.status(401).send({ message: 'Missing Token' });
+    }
   } catch (err) {
-    Response.status(400);
-    return Response.send({ error: 'Missing Token' });
+    return res.send({ message: 'Missing Token' });
   }
 };
 
-async function get() {
-  const hash = await paramsService.getHash();
-  console.log('hash', hash);
-  return hash;
+function get() {
+  return paramsService.getHash();
 }
